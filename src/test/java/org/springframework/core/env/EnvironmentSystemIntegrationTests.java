@@ -40,6 +40,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.context.support.StaticApplicationContext;
+import org.springframework.core.annotation.AliasFor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jca.context.ResourceAdapterApplicationContext;
 import org.springframework.jca.support.SimpleBootstrapContext;

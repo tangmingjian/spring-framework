@@ -130,11 +130,18 @@ public class DefaultListableBeanFactoryTests {
 	public void testUnreferencedSingletonWasInstantiated() {
 		KnowsIfInstantiated.clearInstantiationRecord();
 		DefaultListableBeanFactory lbf = new DefaultListableBeanFactory();
+
 		Properties p = new Properties();
 		p.setProperty("x1.(class)", KnowsIfInstantiated.class.getName());
 		assertTrue("singleton not instantiated", !KnowsIfInstantiated.wasInstantiated());
 		(new PropertiesBeanDefinitionReader(lbf)).registerBeanDefinitions(p);
+
+
 		lbf.preInstantiateSingletons();
+		final ObjectProvider<KnowsIfInstantiated> beanProvider = lbf.getBeanProvider(KnowsIfInstantiated.class);
+		final KnowsIfInstantiated object = beanProvider.getObject();
+		final KnowsIfInstantiated object1 = beanProvider.getObject();
+		final KnowsIfInstantiated bean = lbf.getBean(KnowsIfInstantiated.class);
 		assertTrue("singleton was instantiated", KnowsIfInstantiated.wasInstantiated());
 	}
 

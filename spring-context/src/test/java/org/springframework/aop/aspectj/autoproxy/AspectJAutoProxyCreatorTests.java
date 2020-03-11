@@ -625,7 +625,7 @@ class RetryableException extends NestedRuntimeException {
 class UnreliableBean {
 
 	private int calls;
-
+	@Marker
 	public int unreliable() {
 		this.calls++;
 		if (this.calls % 2 != 0) {

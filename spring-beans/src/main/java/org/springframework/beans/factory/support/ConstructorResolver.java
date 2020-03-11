@@ -215,6 +215,7 @@ class ConstructorResolver {
 								paramNames = pnd.getParameterNames(candidate);
 							}
 						}
+						//得到构造器中的参数
 						argsHolder = createArgumentArray(beanName, mbd, resolvedValues, bw, paramTypes, paramNames,
 								getUserDeclaredConstructor(candidate), autowiring, candidates.length == 1);
 					}
@@ -282,6 +283,7 @@ class ConstructorResolver {
 		}
 
 		Assert.state(argsToUse != null, "Unresolved constructor arguments");
+		//实例化
 		bw.setBeanInstance(instantiate(beanName, mbd, constructorToUse, argsToUse));
 		return bw;
 	}
@@ -757,6 +759,7 @@ class ConstructorResolver {
 							"] - did you specify the correct bean references as arguments?");
 				}
 				try {
+					//获取注入的参数值，会用到AutowireCapableBeanFactory.resolveDependency
 					Object autowiredArgument = resolveAutowiredArgument(
 							methodParam, beanName, autowiredBeanNames, converter, fallback);
 					args.rawArguments[paramIndex] = autowiredArgument;

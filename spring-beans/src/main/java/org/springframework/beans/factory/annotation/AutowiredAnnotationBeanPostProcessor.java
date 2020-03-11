@@ -439,7 +439,9 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 		do {
 			final List<InjectionMetadata.InjectedElement> currElements = new ArrayList<>();
 
+			//处理每一个属性
 			ReflectionUtils.doWithLocalFields(targetClass, field -> {
+				//获取@Value @Autowired @javax.inject.Inject标注的属性
 				AnnotationAttributes ann = findAutowiredAnnotation(field);
 				if (ann != null) {
 					if (Modifier.isStatic(field.getModifiers())) {
@@ -449,10 +451,12 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 						return;
 					}
 					boolean required = determineRequiredStatus(ann);
+					//将收集到的属性放入list中
 					currElements.add(new AutowiredFieldElement(field, required));
 				}
 			});
 
+			//处理每一个方法
 			ReflectionUtils.doWithLocalMethods(targetClass, method -> {
 				Method bridgedMethod = BridgeMethodResolver.findBridgedMethod(method);
 				if (!BridgeMethodResolver.isVisibilityBridgeMethodPair(method, bridgedMethod)) {
@@ -481,6 +485,7 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 			elements.addAll(0, currElements);
 			targetClass = targetClass.getSuperclass();
 		}
+		//循环往父类去找
 		while (targetClass != null && targetClass != Object.class);
 
 		return new InjectionMetadata(clazz, elements);
